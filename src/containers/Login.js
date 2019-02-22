@@ -39,12 +39,27 @@ export default class Login extends Component {
 			alert(e.message);
 			this.setState({ isLoading: false });
 		}
+
+		var url = 'https://example.com/profile';
+var data = {username: 'example'};
+
+fetch(url, {
+  method: 'POST', // or 'PUT'
+  body: JSON.stringify(data), // data can be `string` or {object}!
+  headers:{
+    'Content-Type': 'application/json'
+  }
+}).then(res => res.json())
+.then(response => console.log('Success:', JSON.stringify(response)))
+.catch(error => console.error('Error:', error));
 	};
 
 	render() {
 		return (
 			<div className="Login">
-				<form onSubmit={this.handleSubmit}>
+				<form onSubmit={this.handleSubmit}
+					
+				>
 					<FormGroup controlId="email" bsSize="large">
 						<ControlLabel>Email</ControlLabel>
 						<FormControl autoFocus type="email" value={this.state.email} onChange={this.handleChange} />

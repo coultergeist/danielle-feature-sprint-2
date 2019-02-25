@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import LoaderButton from '../components/LoaderButton';
 import { Auth } from 'aws-amplify';
+import axios from 'axios';
 
 import './Login.css';
 
@@ -35,24 +36,23 @@ export default class Login extends Component {
 			await Auth.signIn(this.state.email, this.state.password);
 			this.props.userHasAuthenticated(true);
 			this.props.history.push('/requests');
+			
+				//**********  */POST function here: Danielle Sprint 2 feature: Log js events from broswer to AWS CW
+				//Setting message parameter in the url to be accessed in AWS services
+				var url = 'https://tqzb08t6al.execute-api.us-east-2.amazonaws.com/development/cloudwatch?message=hello;
+				var data = {username: 'example'};
+
+				//axios takes care of the response data and JSON format, 
+				//and also handles headers and other parameters automatically
+				axios.post(url)
+				.then(data => console.log(data))
+				.catch(err => console.err(err))
+				//end POST
+
 		} catch (e) {
 			alert(e.message);
 			this.setState({ isLoading: false });
 		}
-
-		var url = 'https://example.com/profile';
-var data = {username: 'example'};
-
-fetch(url, {
-  method: 'POST', // or 'PUT'
-  body: JSON.stringify(data), // data can be `string` or {object}!
-  headers:{
-    'Content-Type': 'application/json'
-  }
-}).then(res => res.json())
-.then(response => console.log('Success:', JSON.stringify(response)))
-.catch(error => console.error('Error:', error));
-	};
 
 	render() {
 		return (
